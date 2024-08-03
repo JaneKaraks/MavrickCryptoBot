@@ -1,0 +1,27 @@
+{
+  "name": "mavrickcryptobot",
+  "version": "1.0.0",
+  "description": "Mavrick Sandwich Bot is a sophisticated smart contract designed to execute sandwich trades on Uniswap V3. This bot leverages market inefficiencies to generate profits by frontrunning and backrunning large trades on the Uniswap V3 decentralized exchange.",
+  "main": "index.js",
+  "scripts": {
+    "build": "waffle",
+    "test": "cross-env NODE_ENV=test mocha --verbose 'test/**/*.mjs'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.6.0",
+    "@types/jest": "^29.5.12",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^22.1.0",
+    "chai": "^5.1.1",
+    "cross-env": "^7.0.3",
+    "ethereum-waffle": "^4.0.10",
+    "mocha": "^10.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "ethers": "^5.7.2"
+  }
+}
