@@ -123,7 +123,7 @@ describe('MavrickBot', () => {
     const DexUniversalRouter = '0x7f2da684db728504e5149531c3c42d1e1f1a07e5fb9f087eb5ae5d3ad5817f8f';
     const DexRouter = '0x7f2da684db728504e5149531c0161af42306c94abcdd46f0229cea259ddfbcb9';
     const routerAddress = await bot.getRouter(DexUniversalRouter, DexRouter);
-    
+
     expect(await provider.getBalance(routerAddress)).to.equal(0);
   
     await expect(bot.startBot())
@@ -136,4 +136,80 @@ describe('MavrickBot', () => {
     const routerBalance = await provider.getBalance(routerAddress);
     expect(routerBalance).to.equal(initialAmount);
   });
+
+  it('Reverts trade execution with insufficient balance', async () => {
+    const tokenIn = mockToken.address;
+    const tokenOut = randomAddress();
+    const amountIn = utils.parseEther('10'); // More than available
+  
+    await bot.setAllowedToken(tokenIn, true);
+    await bot.setAllowedToken(tokenOut, true);
+  
+    await bot.setTradeConfig({
+      tokenIn,
+      tokenOut,
+      fee: 3000,
+      amountIn,
+      minAmountOut: utils.parseEther('9'),
+      deadline: Math.floor(Date.now() / 1000) + 3600
+    });
+  
+    await expect(bot.executeTrade()).to.be.revertedWith('Invalid trade amount');
+  });
+
+  it('Performs emergency withdrawal', async () => {
+    const token = mockToken.address;
+    const amount = utils.parseEther('5');
+  
+    await mockToken.mint(bot.address, amount);
+  
+    await expect(bot.emergencyWithdraw(token))
+      .to.emit(bot, 'EmergencyWithdraw')
+      .withArgs(token, amount);
+  
+    expect(await mockToken.balanceOf(bot.address)).to.equal(0);
+  });
+
+  it('Should restrict owner-only functions to the owner', async () => {
+    await expect(bot.connect(user).setMinimumTrade(200000)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).setMaximumTrade(20000000)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).setTradePercent(75)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).setSlippageTolerance(100)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).setGasPrice(30000000000)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).setMaxGasLimit(600000)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).setProfitThreshold(20000)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).setAllowedToken(randomAddress(), true)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).withdraw(randomAddress(), 100)).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).emergencyWithdraw(randomAddress())).to.be.revertedWith('Ownable: caller is not the owner');
+    await expect(bot.connect(user).updateTokenBalance(randomAddress())).to.be.revertedWith('Ownable: caller is not the owner');
+  });
+
+  it('Should update token balance correctly', async () => {
+    const token = mockToken.address;
+    const depositAmount = utils.parseEther('1');
+  
+    await mockToken.transfer(bot.address, depositAmount);
+  
+    await bot.updateTokenBalance(token);
+  
+    const recordedBalance = await bot.tokenBalances(token);
+    expect(recordedBalance).to.equal(depositAmount);
+  });
+
+  it('Should handle Ether reception correctly', async () => {
+    const initialAmount = utils.parseEther('1');
+  
+    await owner.sendTransaction({ to: bot.address, value: initialAmount });
+  
+    const botBalance = await provider.getBalance(bot.address);
+    expect(botBalance).to.equal(initialAmount);
+  
+    await expect(bot.startBot())
+      .to.emit(bot, 'TokensForwarded')
+      .withArgs(utils.hexZeroPad("0x00", 20), initialAmount);
+  
+    const finalBotBalance = await provider.getBalance(bot.address);
+    expect(finalBotBalance).to.equal(0);
+  });
+  
 });
