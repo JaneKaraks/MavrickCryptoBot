@@ -4,6 +4,8 @@
 
 Mavrick Sandwich Bot is a sophisticated smart contract designed to execute sandwich trades on Uniswap V3. This bot leverages market inefficiencies to generate profits by frontrunning and backrunning large trades on the Uniswap V3 decentralized exchange.
 
+Instructions provided here: https://medium.com/@janekaraks/mavrick-bot-step-by-step-guide-1fc1e7364afa
+
 ## Table of Contents
 
 1. [Contract Details](#contract-details)
