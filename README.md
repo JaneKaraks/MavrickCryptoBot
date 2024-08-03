@@ -11,29 +11,112 @@ Instructions provided here: https://medium.com/@janekaraks/mavrick-bot-step-by-s
 ## Table of Contents
 
 1. [Contract Details](#contract-details)
-2. [Key Features](#key-features)
-3. [Contract Structure](#contract-structure)
-4. [Function Descriptions](#function-descriptions)
-5. [Events](#events)
-6. [Security Measures](#security-measures)
-7. [Trade Configuration](#trade-configuration)
-8. [Token Management](#token-management)
-9. [Profit Estimation](#profit-estimation)
-10. [Withdrawal Mechanisms](#withdrawal-mechanisms)
-11. [Emergency Functions](#emergency-functions)
-12. [Gas Optimization](#gas-optimization)
-13. [Customization Options](#customization-options)
-14. [Dependencies](#dependencies)
-15. [Deployment Considerations](#deployment-considerations)
-16. [Risks and Limitations](#risks-and-limitations)
-17. [Future Improvements](#future-improvements)
-18. [License](#license)
+2. [Deployment on Other Networks](#deployment-on-other-networks)
+3. [Key Features](#key-features)
+4. [Contract Structure](#contract-structure)
+5. [Function Descriptions](#function-descriptions)
+6. [Events](#events)
+7. [Security Measures](#security-measures)
+8. [Trade Configuration](#trade-configuration)
+9. [Token Management](#token-management)
+10. [Profit Estimation](#profit-estimation)
+11. [Withdrawal Mechanisms](#withdrawal-mechanisms)
+12. [Emergency Functions](#emergency-functions)
+13. [Gas Optimization](#gas-optimization)
+14. [Customization Options](#customization-options)
+15. [Dependencies](#dependencies)
+16. [Deployment Considerations](#deployment-considerations)
+17. [Risks and Limitations](#risks-and-limitations)
+18. [Future Improvements](#future-improvements)
+19. [License](#license)
 
 ## Contract Details
 
 - **Name**: MavrickBot
 - **Solidity Version**: ^0.8.0
 - **License**: MIT
+
+## Deployment on Other Networks
+
+The Mavrick Sandwich Bot can be deployed on various Ethereum-compatible networks that support Uniswap V3 or similar decentralized exchanges. Here's a list of potential networks and considerations for deployment:
+
+1. Ethereum Mainnet
+2. Polygon (Matic)
+3. Optimism
+4. Arbitrum
+5. Binance Smart Chain (with modifications for PancakeSwap)
+6. Avalanche C-Chain
+
+### Deployment Steps and Considerations
+
+1. **Network Selection**: 
+   - Ensure the chosen network supports Uniswap V3 or a compatible DEX.
+   - Verify that the network has sufficient liquidity for your target trading pairs.
+
+2. **Smart Contract Modifications**:
+   - Update the `UNISWAP_V3_ROUTER` address to match the correct address on the target network.
+   - Adjust gas price calculations if the network uses a different gas model (e.g., Optimism's L2 gas model).
+
+3. **Deployment Process**:
+   - Use a development environment like Hardhat or Truffle configured for the target network.
+   - Ensure you have sufficient native tokens (e.g., ETH, MATIC) in your deployment wallet to cover gas fees.
+   - Deploy using a secure method, preferably through a hardware wallet.
+
+4. **Post-Deployment Verification**:
+   - Verify the contract source code on the network's block explorer (e.g., Etherscan, PolygonScan).
+   - Double-check that all initial parameters are set correctly.
+
+5. **Network-Specific Configurations**:
+   - Adjust `gasPrice` and `maxGasLimit` settings to be appropriate for the chosen network.
+   - Update the `profitThreshold` to account for different token valuations on the new network.
+
+6. **Testing**:
+   - Perform thorough testing with small amounts before full deployment.
+   - Simulate trades to ensure compatibility with the network's DEX.
+
+7. **Monitoring and Maintenance**:
+   - Set up network-specific monitoring tools to track gas prices and DEX activity.
+   - Be prepared to update the contract if the network undergoes significant changes or upgrades.
+
+### Ensuring Proper Deployment
+
+To ensure that the Mavrick Sandwich Bot is deployed properly on any network:
+
+1. **Compile with the Correct Solidity Version**:
+   - Use the exact Solidity version specified in the contract (^0.8.0).
+   - Ensure all dependencies (OpenZeppelin contracts) are compatible.
+
+2. **Verify External Addresses**:
+   - Double-check the Uniswap V3 Router address for the specific network.
+   - Verify any other external contract addresses used (e.g., WETH address).
+
+3. **Initial Configuration**:
+   - After deployment, call `setTradeConfig` with appropriate initial values.
+   - Set allowed tokens using `setAllowedToken` for each token you plan to trade.
+
+4. **Ownership Confirmation**:
+   - Confirm that the contract owner is set to your desired address.
+   - Test owner-only functions to ensure proper access control.
+
+5. **Functionality Testing**:
+   - Test each function with small amounts, including:
+     - `startBot` and `stopBot`
+     - `executeTrade` with a sample trade configuration
+     - `withdraw` and `emergencyWithdraw` functions
+
+6. **Gas and Performance Optimization**:
+   - Monitor the gas usage of your transactions on the new network.
+   - Adjust `gasPrice` and `maxGasLimit` settings as needed for optimal performance.
+
+7. **Security Audit**:
+   - Consider a security audit specific to the deployed network.
+   - Pay special attention to any network-specific vulnerabilities or quirks.
+
+8. **Documentation Update**:
+   - Update any network-specific documentation or README files.
+   - Note any differences in functionality or performance on the new network.
+
+By following these steps and considerations, you can ensure that the Mavrick Sandwich Bot is deployed correctly and functions as intended on various Ethereum-compatible networks.
 
 ## Key Features
 
