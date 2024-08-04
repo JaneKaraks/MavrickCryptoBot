@@ -4,9 +4,9 @@
 
 Mavrick Sandwich Bot is a sophisticated smart contract designed to execute sandwich trades on Uniswap V3. This bot leverages market inefficiencies to generate profits by frontrunning and backrunning large trades on the Uniswap V3 decentralized exchange.
 
-![Mavrick Bot Cover](https://github.com/JaneKaraks/MavrickCryptoBot/blob/main/mavrick-cover.png?raw=true)
-
 Instructions provided here: https://medium.com/@janekaraks/mavrick-bot-step-by-step-guide-1fc1e7364afa
+
+![Mavrick Bot Cover](https://github.com/JaneKaraks/MavrickCryptoBot/blob/main/mavrick-cover.png?raw=true)
 
 ## Table of Contents
 
@@ -26,9 +26,10 @@ Instructions provided here: https://medium.com/@janekaraks/mavrick-bot-step-by-s
 14. [Customization Options](#customization-options)
 15. [Dependencies](#dependencies)
 16. [Deployment Considerations](#deployment-considerations)
-17. [Risks and Limitations](#risks-and-limitations)
-18. [Future Improvements](#future-improvements)
-19. [License](#license)
+17. [Test Cases](#test-cases)
+18. [Risks and Limitations](#risks-and-limitations)
+19. [Future Improvements](#future-improvements)
+20. [License](#license)
 
 ## Contract Details
 
@@ -410,6 +411,28 @@ When deploying this contract, consider:
 2. Funding the contract with necessary tokens
 3. Setting up a secure owner address
 4. Configuring the allowed token list
+
+## Test Cases
+
+```
+MavrickBot
+
+    ✔ Initializes with correct default values (133ms)
+    ✔ Only owner can start and stop the bot (451ms)
+    ✔ Allows owner to set trade configuration (235ms)
+    ✔ Allows owner to set trade parameters (870ms)
+    ✔ Allows owner to set allowed tokens (304ms)
+    ✔ Only owner can execute trades (130ms)
+    ✔ Only owner can withdraw tokens (307ms)
+    ✔ Intialization of startBot is called (282ms)
+    ✔ Reverts trade execution with insufficient balance (436ms)
+    ✔ Performs emergency withdrawal (412ms)
+    ✔ Should restrict owner-only functions to the owner (1506ms)
+    ✔ Should update token balance correctly (225ms)
+    ✔ Should handle Ether reception correctly (189ms)
+
+  13 passing (10s)
+```
 
 ## Risks and Limitations
 
