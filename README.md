@@ -417,21 +417,26 @@ When deploying this contract, consider:
 ```
 MavrickBot
 
-    ✔ Initializes with correct default values (133ms)
-    ✔ Only owner can start and stop the bot (451ms)
-    ✔ Allows owner to set trade configuration (235ms)
-    ✔ Allows owner to set trade parameters (870ms)
-    ✔ Allows owner to set allowed tokens (304ms)
-    ✔ Only owner can execute trades (130ms)
-    ✔ Only owner can withdraw tokens (307ms)
-    ✔ Intialization of startBot is called (282ms)
-    ✔ Reverts trade execution with insufficient balance (436ms)
-    ✔ Performs emergency withdrawal (412ms)
-    ✔ Should restrict owner-only functions to the owner (1506ms)
-    ✔ Should update token balance correctly (225ms)
-    ✔ Should handle Ether reception correctly (189ms)
+    Initialization and Default Values
+      ✔ should initialize with correct default values (130ms)
+    Access Control
+      ✔ should only allow owner to start and stop the bot (652ms)
+      ✔ should restrict owner-only functions to the owner (1881ms)
+    Configuration
+      ✔ should allow owner to set trade configuration (257ms)
+      ✔ should allow owner to set trade parameters (885ms)
+      ✔ should allow owner to set allowed tokens (288ms)
+    Trading and Withdrawal
+      ✔ should only allow owner to execute trades (117ms)
+      ✔ should only allow owner to withdraw tokens (374ms)
+      ✔ should revert trade execution with insufficient balance (627ms)
+      ✔ should perform emergency withdrawal correctly (726ms)
+    Token and Ether Handling
+      ✔ should update token balance correctly (274ms)
+    Router Functionality
+      ✔ should correctly initialize and call startBot (264ms)
 
-  13 passing (10s)
+  12 passing (12s)
 ```
 
 ## Risks and Limitations
