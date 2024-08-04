@@ -2,11 +2,8 @@
 node_modules/
 jspm_packages/
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
 # Compiled contract artifacts
-build/contracts
+build
 
 # Coverage directory used by tools like istanbul
 coverage
